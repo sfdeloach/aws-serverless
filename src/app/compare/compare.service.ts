@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/operator/map';
-import { CognitoUserSession, CognitoUserAttribute } from 'amazon-cognito-identity-js';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { CompareData } from './compare-data.model';
 import { AuthService } from '../user/auth.service';
@@ -71,9 +69,11 @@ export class CompareService {
             })
           }
         )
-        .map((response: Response) => {
-          return response.json();
-        })
+        .pipe(
+          map((response: Response) => {
+            return response.json();
+          })
+        )
         .subscribe(
           data => {
             if (all) {
